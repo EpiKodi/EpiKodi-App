@@ -16,6 +16,29 @@
   <script>document.write(process.versions.chrome)</script>,
   and Electron
   <script>document.write(process.versions.electron)</script>.
+  <br/>
+  <button onclick="openDialog()">file selector</button>
+  <div id="path"></div>
 </body>
+
+<script>
+  const { dialog } = require('electron').remote
+  function openDialog() {
+    var obj = dialog.showOpenDialogSync({
+      properties: ['openFile'],
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+        { name: 'Music', extensions: ['mp3', 'ogg', 'flac', 'opus', 'wav'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    })
+    if (obj != undefined) {
+      const div = document.querySelector("#path")
+      div.textContent = ''
+      div.textContent += obj
+    }
+  }
+</script>
 
 </html>
