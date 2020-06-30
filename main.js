@@ -1,6 +1,6 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, dialog } = require('electron')
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   let win = new BrowserWindow({
     width: 800,
@@ -14,7 +14,4 @@ function createWindow () {
   win.loadFile('index.html')
 }
 
-app.on('ready', () => {
-  createWindow()
-})
-// app.whenReady().then(createWindow)
+app.whenReady().then(createWindow)
