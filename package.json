@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/EpiKodi/EpiKodi-App#readme",
   "dependencies": {
-    "electron": "^9.0.5"
+    "electron": "^9.0.5",
+    "glob": "^7.1.6"
   }
 }

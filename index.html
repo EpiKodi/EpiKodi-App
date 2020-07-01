@@ -16,12 +16,17 @@
   <script>document.write(process.versions.chrome)</script>,
   and Electron
   <script>document.write(process.versions.electron)</script>.
-  <br/>
+  <br />
   <button onclick="openDialog()">file selector</button>
+  <button onclick="scanAll()">scan all files</button>
   <div id="path"></div>
+  <div id="all"></div>
 </body>
 
 <script>
+  var path = require('path');
+  var fs = require('fs');
+  var glob = require("glob");
   const { dialog } = require('electron').remote
   function openDialog() {
     var obj = dialog.showOpenDialogSync({
@@ -38,6 +43,17 @@
       div.textContent = ''
       div.textContent += obj
     }
+  }
+  function scanAll() {
+    const homedir = require('os').homedir();
+    console.log(homedir)
+    glob("/**/*.+(png|jpg|gif|mkv|avi|mp4|mp3|ogg|flac|opus|wav)", { root: homedir }, function (er, files) {
+      console.log(files)
+      const div = document.querySelector('#all')
+      div.textContent = ''
+      for (var i in files)
+        div.innerHTML += files[i] + '<br/>'
+    })
   }
 </script>
 
