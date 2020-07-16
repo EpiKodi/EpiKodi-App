@@ -1,27 +1,21 @@
 export const state = () => ({
-  username: [],
-  token: [], // access = state.token[0].text
+  username: "",
+  token: "", // access = state.token[0].text
   friendlist: []
 })
 
 export const mutations = {
   addtoken (state, text) {
-    state.token.splice(state.token)
-    state.token.push({
-      text,
-    })
+    state.token = text
   },
   removetoken (state) {
-    state.token.splice(state.token)
+    state.token = ""
   },
   addusername(state, text) {
-    state.username.splice(state.username)
-    state.username.push({
-      text,
-    })
+   state.username = text
   },
   removeusername(state) {
-    state.username.splice(state.username)
+    state.username = ""
   },
   addFriendlist (state, text) {
     state.friendlist.push({

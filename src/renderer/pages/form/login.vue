@@ -37,7 +37,7 @@ import { mapMutations } from 'vuex'
                 .then(data => {
                     this.$store.commit('addtoken', data.token)
                     this.$store.commit('addusername', this.input.username)
-                    console.log(this.$store.state.token[0].text + " token " + this.$store.state.username[0].text + " username")
+                    console.log(this.$store.state.token + " token " + this.$store.state.username + " username")
                     this.$router.push('/')
                     // TODO STORE THE DATA IN GLOBAL and redirect to default page
                 })
