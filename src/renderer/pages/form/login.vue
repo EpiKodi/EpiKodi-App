@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
     export default {
         name: 'Login',
         data() {
@@ -32,8 +34,10 @@
                         'password': this.input.password
                         })
                 }).then(response => response.json())
-                .then(data => { 
-                    console.log(data.token)
+                .then(data => {
+                    this.$store.commit('addtoken', data.token)
+                    this.$store.commit('addusername', this.input.username)
+                    console.log(this.$store.state.token[0].text + " token " + this.$store.state.username[0].text + " username")
                     this.$router.push('/')
                     // TODO STORE THE DATA IN GLOBAL and redirect to default page
                 })
