@@ -6,11 +6,8 @@
         <input type="password" name="password" v-model="input.password"  placeholder="Password" />
         <input type="password" name="password2" v-model="input.password2" placeholder="Confirm Password" />
         <button type="button" v-on:click="register()">register</button>
-        <v-list-item  class="red--text" v-for="item in items" :key="item.title" link :to="item.link">
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+        <br>
+        <nuxt-link to="./login">Registered already? Login here</nuxt-link>
     </div>
 </template>
 
@@ -19,9 +16,6 @@ export default {
     name: 'register',
     data() {
         return{
-            items: [
-                 { title: 'Registered already? Login here', link: './login' },
-            ],
             input: {
                 password:"",
                 password2:"",
@@ -46,7 +40,11 @@ export default {
                                     .then((response) => response.json())
                                     .then((data) => {
                                     console.log(data)
-                                    this.$route.router.go('./login')
+                                    if (data.id) {
+                                    this.$router.push('./login')
+                                    } else {
+                                        alert("this account already exists")
+                                    }
                                     // TODO redirect to login page
                                     });
                             } else {

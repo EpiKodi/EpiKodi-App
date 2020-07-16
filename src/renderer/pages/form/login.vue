@@ -4,11 +4,7 @@
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
         <button type="button" v-on:click="login()">Login</button>
-         <v-list-item class="red--text" v-for="item in items" :key="item.title" link :to="item.link">
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+        <nuxt-link to="./register">Don't you have an account? Register here</nuxt-link>
     </div>
 </template>
 
@@ -17,9 +13,6 @@
         name: 'Login',
         data() {
             return {
-                items: [
-                    {title: "Don't you have an account? Register here", link: "./register"}
-                ],
                 input: {
                     username: "",
                     password: ""
@@ -41,7 +34,7 @@
                 }).then(response => response.json())
                 .then(data => { 
                     console.log(data.token)
-                    this.$route.router.push('./register')
+                    this.$router.push('/')
                     // TODO STORE THE DATA IN GLOBAL and redirect to default page
                 })
                 } else {
