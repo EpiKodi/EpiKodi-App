@@ -37,9 +37,17 @@
             </n-link>
           </v-row>
         </v-row>
+        <v-row dense style="min-height: 275px;">
+          <v-layout column class="my-card-movie" v-for="file in uploads" :key="file.id">
+            <!-- <v-card hover :to="getLink(card.title, card.image, card.media)">
+              <v-img :src="card.image" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
+            </v-card> -->
+            <n-link :to="getUploadLink(file.id, file.filename)" class="movie-title">{{ file.filename }}</n-link>
+          </v-layout>
+        </v-row>
       </v-container>
     </div>
-    <Import v-else @switch="switchMode" @add="addVideo"/>
+    <Import v-else @switch="switchMode" @add="addVideo" />
   </v-layout>
 </template>
 
@@ -52,14 +60,40 @@ export default {
   data() {
     return {
       import_mode: false,
-      cards: [
-      ],
+      cards: [],
+      uploads: [],
     }
   },
+  mounted: function() {
+    this.getUploadVideo()
+  },
   methods: {
+    getUploadVideo() {
+      fetch('https://epi-kodi.herokuapp.com/file', {
+        method: 'get',
+        headers: {
+          Authorization: this.$store.state.token,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          this.uploads = data
+          resp.innerHTML = ''
+          resp.innerHTML += JSON.stringify(data)
+          this.$router.push({ path: '/tab/video' })
+        })
+    },
     getLink(title, image, media) {
       var replaced = title.split(' ').join('-')
       return { name: 'video-id', params: { title: title, image: image, media: media } }
+    },
+    getUploadLink(id, filename) {
+      if (filename === undefined) {
+        return
+      }
+      var replaced = filename.split(' ').join('-')
+      return { name: 'video-id', params: { title: filename, id: id } }
     },
     switchMode() {
       if (this.import_mode) {
@@ -77,7 +111,7 @@ export default {
       console.log(carte)
       this.cards.push(carte)
       this.switchMode()
-    }
+    },
   },
 }
 </script>

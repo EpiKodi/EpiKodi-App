@@ -17,7 +17,7 @@
 
 <script>
 import Alert from '~/components/Alert'
-
+import { mapMutations } from 'vuex'
 export default {
   name: 'Login',
   components: {
@@ -54,7 +54,9 @@ export default {
             this.alert.message = data.message
             this.alert.type = 'is-danger'
           } else {
-            console.log(data)
+            this.$store.commit('addtoken', data.token)
+            this.$store.commit('addusername', this.username)
+            console.log(this.$store.state.token + ' token ' + this.$store.state.username + ' username')
             this.alert.message = 'Connexion réussie'
             this.alert.type = 'is-success'
             this.$router.push({ path: '/tab/video' })
