@@ -1,11 +1,11 @@
 <template>
   <v-container fluid fill-height class="my-container">
     <video id="my-video" class="video-js my-video" controls autoplay preload="auto" height="997px" data-setup="{}">
-      <source src="file:///home/takoo/Videos/fury.mp4" type="video/mp4" />
+      <source :src="media" type="video/mp4" />
     </video>
     <v-row style="position: absolute; margin-top: 10px; margin-left: 10px;">
       <v-btn to="/tab/video" color="#FFF"> <v-icon left>mdi-arrow-left-bold</v-icon> Retour </v-btn>
-      <h1 class="video-title">{{ title }} - {{ year }}</h1>
+      <h1 class="video-title">{{ title }}</h1>
     </v-row>
   </v-container>
 </template>
@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       title: this.$route.params.title,
-      year: this.$route.params.year,
       image: this.$route.params.image,
       media: this.$route.params.media,
     }

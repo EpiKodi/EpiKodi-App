@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Videos', icon: 'mdi-video', link: '/' },
+        { title: 'Videos', icon: 'mdi-video', link: '/tab/video' },
         { title: 'Musiques', icon: 'mdi-music', link: '/tab/music' },
         { title: 'Diffusions', icon: 'mdi-twitch', link: '/tab/live' },
         { title: 'Envoyer', icon: 'mdi-upload', link: '/tab/upload' },

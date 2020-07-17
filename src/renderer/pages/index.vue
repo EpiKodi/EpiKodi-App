@@ -5,8 +5,8 @@
         <h3 style="text-align: center;">Connexion</h3>
         <Alert style="text-align: center;" :message="alert.message" :type="alert.type" v-if="alert.message" />
         <v-layout column class="login-box">
-          <v-text-field v-model="username" placeholder="Identifiant" color="success"></v-text-field>
-          <v-text-field v-model="password" placeholder="Mot de passe"></v-text-field>
+          <v-text-field dark v-model="username" placeholder="Identifiant" color="success"></v-text-field>
+          <v-text-field dark v-model="password" placeholder="Mot de passe"></v-text-field>
           <v-btn @click="sendForm()">Connexion</v-btn>
           <span style="text-align: center;margin-top: 15px;">Première connexion ? <n-link to="/register">Inscrivez-vous</n-link></span>
         </v-layout>
@@ -73,22 +73,5 @@ export default {
   margin: auto;
   align-content: center;
   vertical-align: middle;
-}
-
-.v-text-field__slot input,
-.v-text-field__slot input::placeholder {
-  color: white !important;
-}
-
-.v-input__control > .v-input__slot:before {
-  border-color: white !important;
-}
-
-.v-text-field__slot {
-  color: white !important;
-}
-
-.v-input {
-  color: white !important;
 }
 </style>
