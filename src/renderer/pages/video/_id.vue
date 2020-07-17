@@ -2,6 +2,7 @@
   <v-container fluid fill-height class="my-container">
     <video id="my-video" class="video-js my-video" controls autoplay preload="auto" height="997px" data-setup="{}">
       <source :src="media" type="video/mp4" />
+      <!-- <source src="https://epi-kodi.herokuapp.com/file/54190c00d4b543e1a6cefdede2bc91ab?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjZjOTFjNDFhNzRmZjQ2NzQ4ZjFmNGMyNDVhNzdjYjRjIn0.k66IxktjruNDGUE77GFaeRTjlRPVsNM1YleNQ0xZhcs" type="video/mp4" /> -->
     </video>
     <v-row style="position: absolute; margin-top: 10px; margin-left: 10px;">
       <v-btn to="/tab/video" color="#FFF"> <v-icon left>mdi-arrow-left-bold</v-icon> Retour </v-btn>
@@ -11,7 +12,6 @@
 </template>
 
 <script>
-
 import { remote } from 'electron'
 
 export default {
@@ -29,8 +29,19 @@ export default {
       media: this.$route.params.media,
     }
   },
-  mounted() {
-    console.log(this.media)
+  beforeCreate() {
+    if (this.$route.params.id != undefined) {
+      fetch('https://epi-kodi.herokuapp.com/file/' + this.$route.params.id + '?token=' + this.$store.state.token, {
+        method: 'get',
+        headers: {
+          Authorization: this.$store.state.token,
+        },
+      }).then(data => {
+        console.log(data)
+        this.media = data.url
+        console.log(this.media)
+      })
+    }
   },
   methods: {},
   layout: 'player',

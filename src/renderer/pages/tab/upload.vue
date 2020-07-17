@@ -48,8 +48,6 @@ export default {
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          resp.innerHTML = ''
-          resp.innerHTML += JSON.stringify(data)
           this.$router.push({ path: '/tab/video' })
         })
     },

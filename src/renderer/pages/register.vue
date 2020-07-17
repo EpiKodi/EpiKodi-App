@@ -59,7 +59,7 @@ export default {
           } else {
             this.alert.message = 'Création de compte réussie'
             this.alert.type = 'is-success'
-            this.$router.push({ path: '/tab/video' })
+            this.$router.push({ path: '/' })
           }
         })
       // TODO STORE THE DATA IN GLOBAL and redirect to default page

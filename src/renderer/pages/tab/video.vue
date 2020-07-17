@@ -17,12 +17,15 @@
             </div>
           </v-row>
         </v-row>
-        <v-row dense style="min-height: 275px;">
+        <v-row dense style="min-height: 300px;">
           <v-layout column class="my-card-movie" v-for="card in cards" :key="card.title">
             <v-card hover :to="getLink(card.title, card.image, card.media)">
               <v-img :src="card.image" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
             </v-card>
             <span class="movie-title">{{ card.title }}</span>
+            <v-btn style="margin-top: 15px" outlined small dark text color="indigo" @click="rmLocal(card.title)">
+              Supprimer
+            </v-btn>
           </v-layout>
         </v-row>
         <v-row style="margin:0 5px;justify-content: space-between;display: flex;">
@@ -39,10 +42,10 @@
         </v-row>
         <v-row dense style="min-height: 275px;">
           <v-layout column class="my-card-movie" v-for="file in uploads" :key="file.id">
-            <!-- <v-card hover :to="getLink(card.title, card.image, card.media)">
-              <v-img :src="card.image" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
-            </v-card> -->
             <n-link :to="getUploadLink(file.id, file.filename)" class="movie-title">{{ file.filename }}</n-link>
+            <v-btn style="margin-top: 15px" outlined small dark text color="indigo" @click="rmUpload(file.id)">
+              Supprimer
+            </v-btn>
           </v-layout>
         </v-row>
       </v-container>
@@ -79,9 +82,27 @@ export default {
         .then(data => {
           console.log(data)
           this.uploads = data
-          resp.innerHTML = ''
-          resp.innerHTML += JSON.stringify(data)
           this.$router.push({ path: '/tab/video' })
+        })
+    },
+    rmLocal(title) {
+      for (let i = 0; i < this.cards.length; i++) {
+        if (title === this.cards[i].title) {
+          this.cards.splice(i, 1)
+        }
+      }
+    },
+    rmUpload(id) {
+      fetch('https://epi-kodi.herokuapp.com/file/' + id, {
+        method: 'delete',
+        headers: {
+          Authorization: this.$store.state.token,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          this.getUploadVideo()
         })
     },
     getLink(title, image, media) {
@@ -90,7 +111,7 @@ export default {
     },
     getUploadLink(id, filename) {
       if (filename === undefined) {
-        return
+        return '/tab/video'
       }
       var replaced = filename.split(' ').join('-')
       return { name: 'video-id', params: { title: filename, id: id } }
