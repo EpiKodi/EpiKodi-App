@@ -1,48 +1,83 @@
 <template>
   <v-layout column>
-    <div>
-      <h1 class="my-title">Vidéos</h1>
+    <div v-if="import_mode === false">
+      <div>
+        <h1 class="my-title">Vidéos</h1>
+      </div>
+      <v-container fluid>
+        <v-row style="margin:0 5px;justify-content: space-between;display: flex;">
+          <v-row class="my-section">
+            <v-icon class="section-icon">mdi-folder</v-icon>
+            <span class="section-title">LOCAL</span>
+          </v-row>
+          <v-row class="my-section">
+            <div @click="switchMode()" style="text-decoration: none; color: inherit;">
+              <span class="section-title nlink">AJOUTER</span>
+              <v-icon class="section-icon" style="margin-top: -3px">mdi-plus</v-icon>
+            </div>
+          </v-row>
+        </v-row>
+        <v-row dense style="min-height: 275px;">
+          <v-layout column class="my-card-movie" v-for="card in cards" :key="card.title">
+            <v-card hover :to="getLink(card.title, card.image, card.media)">
+              <v-img :src="card.image" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
+            </v-card>
+            <span class="movie-title">{{ card.title }}</span>
+          </v-layout>
+        </v-row>
+        <v-row style="margin:0 5px;justify-content: space-between;display: flex;">
+          <v-row class="my-section">
+            <v-icon class="section-icon">mdi-cloud</v-icon>
+            <span class="section-title">UPLOAD</span>
+          </v-row>
+          <v-row class="my-section">
+            <n-link to="/tab/upload" style="text-decoration: none; color: inherit;">
+              <span class="section-title nlink">AJOUTER</span>
+              <v-icon class="section-icon" style="margin-top: -3px">mdi-plus</v-icon>
+            </n-link>
+          </v-row>
+        </v-row>
+      </v-container>
     </div>
-    <v-container fluid>
-      <v-row dense>
-        <v-layout column class="my-card-movie" v-for="card in cards" :key="card.title">
-          <v-card hover :to="getLink(card.title, card.year, card.image, card.media)">
-            <v-img :src="card.src" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
-          </v-card>
-          <span class="movie-title">{{ card.title }}</span>
-          <span class="movie-year">{{ card.year }}</span>
-        </v-layout>
-      </v-row>
-    </v-container>
+    <Import v-else @switch="switchMode" @add="addVideo"/>
   </v-layout>
 </template>
 
 <script>
 import { remote } from 'electron'
+import Import from '~/components/Import'
 
 export default {
-  components: {},
+  components: { Import },
   data() {
     return {
+      import_mode: false,
       cards: [
-        {
-          title: 'Fury',
-          year: '2014',
-          src:
-            'https://media1.woopic.com/api/v1/images/174%2Fcinemovies%2F362%2Ffde%2F94f63bd384778c1cf5c02f5a06%2Fmovies-218759-21118663.jpg?format=822x700&quality=85',
-          media: '',
-        },
-        { title: 'Road trips', year: '1999', image: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', media: '' },
-        { title: 'Best airlines', year: '2042', image: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', media: '' },
-        { title: 'test', year: '2042', image: '', media: '/home/takoo/Videos/fury.mp4' },
       ],
     }
   },
   methods: {
-    getLink(title, year, image, media) {
+    getLink(title, image, media) {
       var replaced = title.split(' ').join('-')
-      return { name: 'video-id', params: { title: title, year: year, image: image, media: media } }
+      return { name: 'video-id', params: { title: title, image: image, media: media } }
     },
+    switchMode() {
+      if (this.import_mode) {
+        this.import_mode = false
+      } else {
+        this.import_mode = true
+      }
+    },
+    addVideo(name, image, video) {
+      let carte = {
+        title: name,
+        image: 'file:///' + image,
+        media: 'file:///' + video,
+      }
+      console.log(carte)
+      this.cards.push(carte)
+      this.switchMode()
+    }
   },
 }
 </script>
@@ -54,6 +89,28 @@ body {
     sans-serif;
   color: #dfdfdf;
   font-size: 16px;
+}
+
+.my-section {
+  max-width: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+.nlink:hover {
+  text-decoration: underline;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+  height: 24px;
+  line-height: 24px;
+}
+
+.section-icon {
+  color: #dfdfdf !important;
+  margin-right: 10px;
 }
 
 .my-title {

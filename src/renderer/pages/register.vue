@@ -5,9 +5,9 @@
         <h3 style="text-align: center;">Inscription</h3>
         <Alert style="text-align: center;" :message="alert.message" :type="alert.type" v-if="alert.message" />
         <v-layout column class="register-box">
-          <v-text-field v-model="username" placeholder="Identifiant"></v-text-field>
-          <v-text-field v-model="password" placeholder="Mot de passe"></v-text-field>
-          <v-text-field v-model="passwordc" placeholder="Confirmez le mot de passe"></v-text-field>
+          <v-text-field dark v-model="username" placeholder="Identifiant"></v-text-field>
+          <v-text-field dark v-model="password" placeholder="Mot de passe"></v-text-field>
+          <v-text-field dark v-model="passwordc" placeholder="Confirmez le mot de passe"></v-text-field>
           <v-btn @click="sendForm()">Inscription</v-btn>
           <span style="text-align: center;margin-top: 15px;">Déjà membre ? <n-link to="/">Connectez-vous</n-link></span>
         </v-layout>
