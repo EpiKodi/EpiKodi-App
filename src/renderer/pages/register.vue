@@ -2,13 +2,14 @@
   <v-container fill-height fluid style="min-height: 900px;">
     <v-row align="center" justify="center">
       <v-col>
-        <h3 style="text-align: center;">Connexion</h3>
+        <h3 style="text-align: center;">Inscription</h3>
         <Alert style="text-align: center;" :message="alert.message" :type="alert.type" v-if="alert.message" />
-        <v-layout column class="login-box">
-          <v-text-field v-model="username" placeholder="Identifiant" color="success"></v-text-field>
+        <v-layout column class="register-box">
+          <v-text-field v-model="username" placeholder="Identifiant"></v-text-field>
           <v-text-field v-model="password" placeholder="Mot de passe"></v-text-field>
-          <v-btn @click="sendForm()">Connexion</v-btn>
-          <span style="text-align: center;margin-top: 15px;">Première connexion ? <n-link to="/register">Inscrivez-vous</n-link></span>
+          <v-text-field v-model="passwordc" placeholder="Confirmez le mot de passe"></v-text-field>
+          <v-btn @click="sendForm()">Inscription</v-btn>
+          <span style="text-align: center;margin-top: 15px;">Déjà membre ? <n-link to="/">Connectez-vous</n-link></span>
         </v-layout>
       </v-col>
     </v-row>
@@ -19,15 +20,16 @@
 import Alert from '~/components/Alert'
 
 export default {
-  name: 'Login',
+  name: 'Register',
+  layout: 'player',
   components: {
     Alert,
   },
-  layout: 'player',
   data() {
     return {
-      username: 'axel',
-      password: 'axel',
+      username: 'test',
+      password: 'test',
+      passwordc: 'test',
       alert: {
         message: null,
         type: null,
@@ -36,9 +38,9 @@ export default {
   },
   methods: {
     async sendForm() {
-      this.alert.message = 'Connexion en cours'
+      this.alert.message = 'Création de compte en cours'
       this.alert.type = 'is-warning'
-      fetch('https://epi-kodi.herokuapp.com/auth/login', {
+      fetch('https://epi-kodi.herokuapp.com/auth/register', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -50,12 +52,12 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          if (data.token === undefined) {
+          console.log(data)
+          if (data.id === undefined) {
             this.alert.message = data.message
             this.alert.type = 'is-danger'
           } else {
-            console.log(data)
-            this.alert.message = 'Connexion réussie'
+            this.alert.message = 'Création de compte réussie'
             this.alert.type = 'is-success'
             this.$router.push({ path: '/tab/video' })
           }
@@ -67,7 +69,7 @@ export default {
 </script>
 
 <style>
-.login-box {
+.register-box {
   max-width: 350px;
   max-height: 225px;
   margin: auto;

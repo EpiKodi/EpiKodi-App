@@ -1,5 +1,7 @@
 <template>
-  <nuxt />
+  <v-container class="my-container" fill-height fluid>
+    <nuxt />
+  </v-container>
 </template>
 
 <script>
@@ -16,7 +18,7 @@ body {
   margin: 0 !important;
   font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
     sans-serif;
-  color: #dfdfdf;
+  color: #dfdfdf !important;
   background-color: #242424;
 }
 

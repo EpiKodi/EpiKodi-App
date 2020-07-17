@@ -1,16 +1,17 @@
 <template>
   <v-container fluid fill-height class="my-container">
-    <video id="my-video" class="video-js my-video" controls preload="auto" height="997px" data-setup="{}">
-      <source src="~assets/fury.mp4" type="video/mp4" />
+    <video id="my-video" class="video-js my-video" controls autoplay preload="auto" height="997px" data-setup="{}">
+      <source src="file:///home/takoo/Videos/fury.mp4" type="video/mp4" />
     </video>
     <v-row style="position: absolute; margin-top: 10px; margin-left: 10px;">
-      <v-btn to="/" color="#FFF"> <v-icon left>mdi-arrow-left-bold</v-icon> Retour </v-btn>
+      <v-btn to="/tab/video" color="#FFF"> <v-icon left>mdi-arrow-left-bold</v-icon> Retour </v-btn>
       <h1 class="video-title">{{ title }} - {{ year }}</h1>
     </v-row>
   </v-container>
 </template>
 
 <script>
+
 import { remote } from 'electron'
 
 export default {
@@ -26,9 +27,12 @@ export default {
       title: this.$route.params.title,
       year: this.$route.params.year,
       image: this.$route.params.image,
+      media: this.$route.params.media,
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.media)
+  },
   methods: {},
   layout: 'player',
 }
@@ -36,7 +40,7 @@ export default {
 
 <style>
 :focus {
-  outline: none;  
+  outline: none;
 }
 body {
   margin: 0 !important;
