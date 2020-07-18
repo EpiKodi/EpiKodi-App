@@ -1,5 +1,8 @@
 <template>
   <v-container fluid fill-height class="my-container">
+    <v-snackbar top right rounded shaped v-model="notification" timeout=3000>
+      {{notification_text}}
+    </v-snackbar>
     <v-layout row style="min-height: 997px;">
       <v-card min-height="100%" width="256">
         <v-navigation-drawer class="deep-purple accent-4" dark permanent>
@@ -30,13 +33,29 @@ export default {
       items: [
         { title: 'Videos', icon: 'mdi-video', link: '/tab/video' },
         { title: 'Musiques', icon: 'mdi-music', link: '/tab/music' },
-        { title: 'Diffusions', icon: 'mdi-twitch', link: '/tab/live' },
+        { title: 'Diffusions', icon: 'mdi-access-point', link: '/tab/live' },
         { title: 'Youtube', icon: 'mdi-youtube', link: '/tab/youtube' },
         { title: 'Envoyer', icon: 'mdi-upload', link: '/tab/upload' },
         { title: 'Déconnexion', icon: 'mdi-logout', link: '/' },
       ],
+      notification: false,
+      notification_text: ""
     }
   },
+  mounted() {
+    // Create persistant socket
+    this.socket = this.$nuxtSocket({
+      channel: '/'
+    });
+    // Join dedicated room
+    this.socket.emit("join", {
+      token: this.$store.state.token
+    });
+    this.socket.on("stream", (data) => {
+      this.notification = true
+      this.notification_text = data.user + " is now streaming."
+    })
+  }
 }
 </script>
 

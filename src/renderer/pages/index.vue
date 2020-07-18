@@ -26,8 +26,8 @@ export default {
   layout: 'player',
   data() {
     return {
-      username: 'axel',
-      password: 'axel',
+      username: 'username_test',
+      password: 'password_test',
       alert: {
         message: null,
         type: null,
@@ -62,7 +62,6 @@ export default {
             this.$router.push({ path: '/tab/video' })
           }
         })
-      // TODO STORE THE DATA IN GLOBAL and redirect to default page
     },
   },
 }

@@ -1,5 +1,10 @@
 {
   "name": "epikodi",
+  "author": {
+    "name": "Kylian Cadet",
+    "email": "kylian.cadet@epitech.eu"
+  },
+  "url": "https://github.com/EpiKodi/EpiKodi-App",
   "version": "0.0.1",
   "description": "An electron-nuxt project",
   "main": "./dist/main/index.js",
@@ -11,7 +16,6 @@
     "postinstall": "electron-builder install-app-deps "
   },
   "keywords": [],
-  "author": "",
   "license": "MIT",
   "homepage": "https://github.com/michalzaq12/electron-nuxt/blob/master/README.md",
   "engines": {
@@ -44,5 +48,8 @@
     "vuetify-audio": "^0.3.3",
     "webpack": "4.43.0",
     "webpack-node-externals": "1.7.2"
+  },
+  "dependencies": {
+    "nuxt-socket-io": "^1.1.5"
   }
 }

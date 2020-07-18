@@ -20,12 +20,23 @@
         <v-row dense style="min-height: 300px;">
           <v-layout column class="my-card-movie" v-for="card in cards" :key="card.title">
             <v-card hover :to="getLink(card.title, card.image, card.media)">
-              <v-img :src="card.image" class="movie-img white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" />
+              <v-img
+                :src="card.image"
+                class="movie-img white--text align-end"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                height="200px"
+              />
             </v-card>
             <span class="movie-title">{{ card.title }}</span>
-            <v-btn style="margin-top: 15px" outlined small dark text color="indigo" @click="rmLocal(card.title)">
-              Supprimer
-            </v-btn>
+            <v-btn
+              style="margin-top: 15px"
+              outlined
+              small
+              dark
+              text
+              color="indigo"
+              @click="rmLocal(card.title)"
+            >Supprimer</v-btn>
           </v-layout>
         </v-row>
         <v-row style="margin:0 5px;justify-content: space-between;display: flex;">
@@ -42,10 +53,30 @@
         </v-row>
         <v-row dense style="min-height: 275px;">
           <v-layout column class="my-card-movie" v-for="file in uploads" :key="file.id">
-            <n-link :to="getUploadLink(file.id, file.filename)" class="movie-title">{{ file.filename }}</n-link>
-            <v-btn style="margin-top: 15px" outlined small dark text color="indigo" @click="rmUpload(file.id)">
-              Supprimer
-            </v-btn>
+            <n-link
+              :to="getUploadLink(file.id, file.filename)"
+              class="movie-title"
+            >{{ file.filename }}</n-link>
+            <v-btn
+              v-if="checkFile(file.user)"
+              style="margin-top: 15px"
+              outlined
+              small
+              dark
+              text
+              color="indigo"
+              @click="rmUpload(file.id)"
+            >Supprimer</v-btn>
+            <v-btn
+              v-if="checkFile(file.user)"
+              style="margin-top: 15px"
+              outlined
+              small
+              dark
+              text
+              color="indigo"
+              @click="startStream(file.id, file.filename)"
+            >Stream</v-btn>
           </v-layout>
         </v-row>
       </v-container>
@@ -55,8 +86,8 @@
 </template>
 
 <script>
-import { remote } from 'electron'
-import Import from '~/components/Import'
+import { remote } from "electron";
+import Import from "~/components/Import";
 
 export default {
   components: { Import },
@@ -64,83 +95,100 @@ export default {
     return {
       import_mode: false,
       cards: [],
-      uploads: [],
-    }
+      uploads: []
+    };
   },
   mounted: function() {
-    this.getUploadVideo()
+    this.getUploadVideo();
   },
   methods: {
     getUploadVideo() {
-      fetch('https://epi-kodi.herokuapp.com/file', {
-        method: 'get',
+      fetch("https://epi-kodi.herokuapp.com/file", {
+        method: "get",
         headers: {
-          Authorization: this.$store.state.token,
-        },
+          Authorization: this.$store.state.token
+        }
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
-          this.uploads = data
-          this.$router.push({ path: '/tab/video' })
-        })
+          this.uploads = data;
+          this.$router.push({ path: "/tab/video" });
+        });
     },
     rmLocal(title) {
       for (let i = 0; i < this.cards.length; i++) {
         if (title === this.cards[i].title) {
-          this.cards.splice(i, 1)
+          this.cards.splice(i, 1);
         }
       }
     },
     rmUpload(id) {
-      fetch('https://epi-kodi.herokuapp.com/file/' + id, {
-        method: 'delete',
+      fetch("https://epi-kodi.herokuapp.com/file/" + id, {
+        method: "delete",
         headers: {
-          Authorization: this.$store.state.token,
-        },
+          Authorization: this.$store.state.token
+        }
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
-          this.getUploadVideo()
-        })
+          this.getUploadVideo();
+        });
     },
     getLink(title, image, media) {
-      var replaced = title.split(' ').join('-')
-      return { name: 'video-id', params: { title: title, image: image, media: media } }
+      var replaced = title.split(" ").join("-");
+      return {
+        name: "video-id",
+        params: { title: title, image: image, media: media }
+      };
     },
     getUploadLink(id, filename) {
       if (filename === undefined) {
-        return '/tab/video'
+        return "/tab/video";
       }
-      var replaced = filename.split(' ').join('-')
-      return { name: 'video-id', params: { title: filename, id: id } }
+      var replaced = filename.split(" ").join("-");
+      return { name: "video-id", params: { title: filename, id: id } };
     },
     switchMode() {
       if (this.import_mode) {
-        this.import_mode = false
+        this.import_mode = false;
       } else {
-        this.import_mode = true
+        this.import_mode = true;
       }
     },
     addVideo(name, image, video) {
       let carte = {
         title: name,
-        image: 'file:///' + image,
-        media: 'file:///' + video,
-      }
-      console.log(carte)
-      this.cards.push(carte)
-      this.switchMode()
+        image: "file:///" + image,
+        media: "file:///" + video
+      };
+      this.cards.push(carte);
+      this.switchMode();
     },
-  },
-}
+    startStream(id, filename) {
+      if (filename === undefined) {
+        return;
+      }
+      this.$router.push({
+        name: "video-id",
+        params: {
+          stream: true,
+          title: filename,
+          id: id
+        }
+      });
+    },
+    checkFile(file_user) {
+      return file_user == this.$store.state.username;
+    }
+  }
+};
 </script>
 
 <style>
 body {
   margin: 0 !important;
-  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
     sans-serif;
   color: #dfdfdf;
   font-size: 16px;
@@ -176,7 +224,7 @@ body {
 }
 
 .my-card-movie {
-  width: 130px;
+  padding-right: 40px;
   height: 200px;
   flex: none;
   margin: 10px;
