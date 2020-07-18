@@ -58,6 +58,7 @@
               class="movie-title"
             >{{ file.filename }}</n-link>
             <v-btn
+              v-if="checkFile(file.user)"
               style="margin-top: 15px"
               outlined
               small
@@ -67,13 +68,14 @@
               @click="rmUpload(file.id)"
             >Supprimer</v-btn>
             <v-btn
+              v-if="checkFile(file.user)"
               style="margin-top: 15px"
               outlined
               small
               dark
               text
               color="indigo"
-              @click="streamUpload(file.id, file.filename)"
+              @click="startStream(file.id, file.filename)"
             >Stream</v-btn>
           </v-layout>
         </v-row>
@@ -165,7 +167,7 @@ export default {
       this.cards.push(carte);
       this.switchMode();
     },
-    streamUpload(id, filename) {
+    startStream(id, filename) {
       if (filename === undefined) {
         return;
       }
@@ -177,6 +179,9 @@ export default {
           id: id
         }
       });
+    },
+    checkFile(file_user) {
+      return (file_user == this.$store.state.username)
     }
   }
 };
@@ -222,7 +227,7 @@ body {
 }
 
 .my-card-movie {
-  width: 130px;
+  padding-right: 40px;
   height: 200px;
   flex: none;
   margin: 10px;

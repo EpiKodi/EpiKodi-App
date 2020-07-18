@@ -3,8 +3,8 @@
     <video
       id="my-video"
       class="video-js my-video"
-      controls
-      autoplay
+      :controls="controls"
+      :autoplay="autoplay"
       preload="auto"
       height="997px"
       data-setup="{}"
@@ -36,7 +36,10 @@ export default {
       title: this.$route.params.title,
       image: this.$route.params.image,
       media: this.$route.params.media,
-      stream: false
+      controls: "controls",
+      autoplay: true,
+      stream: false,
+      watcher: false
     };
   },
   created() {
@@ -46,6 +49,12 @@ export default {
       this.startStream();
     }
 
+    if (this.$route.params.watcher == true) {
+      // Disable controls
+      this.controls = false
+      this.autoplay = false
+    }
+
     // Set media url
     if (this.$route.params.id != undefined) {
       this.media =
@@ -53,7 +62,6 @@ export default {
         this.$route.params.id +
         "?token=" +
         this.$store.state.token;
-      console.log(this.media);
     }
   },
 
