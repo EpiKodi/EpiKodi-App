@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height class="my-container">
     <video
-      id="my-video"
+      id="video"
       class="video-js my-video"
       :controls="controls"
       :autoplay="autoplay"
@@ -43,18 +43,6 @@ export default {
     };
   },
   created() {
-    if (this.$route.params.stream == true) {
-      // Start stream
-      this.stream = true;
-      this.startStream();
-    }
-
-    if (this.$route.params.watcher == true) {
-      // Disable controls
-      this.controls = false
-      this.autoplay = false
-    }
-
     // Set media url
     if (this.$route.params.id != undefined) {
       this.media =
@@ -65,6 +53,39 @@ export default {
     }
   },
 
+  mounted() {
+    // Create persistant socket
+    this.socket = this.$nuxtSocket({
+      channel: "/"
+    });
+    // Join dedicated room
+    this.socket.emit("join", {
+      token: this.$store.state.token
+    });
+
+    if (this.$route.params.stream == true) {
+      // Start stream
+      this.stream = true;
+      this.startStream();
+    }
+
+    if (this.$route.params.watcher == true) {
+      // Disable controls
+      this.controls = false;
+      this.autoplay = false;
+    }
+
+    if (this.$route.params.watcher == true) {
+      // WebSocket callback
+      this.socket.on("media_update", data => {
+        const v = document.querySelector("#video");
+        console.log(data);
+        v.currentTime = data.timer;
+        if (data.play) v.play();
+        else v.pause();
+      });
+    }
+  },
   beforeDestroy() {
     if (this.stream == true) {
       // Stop stream
@@ -74,6 +95,9 @@ export default {
   layout: "player",
   methods: {
     startStream() {
+      const v = document.querySelector("#video");
+      v.onplay = this.mediaUpdate;
+      v.onpause = this.mediaUpdate;
       fetch("https://epi-kodi.herokuapp.com/stream/" + this.$route.params.id, {
         method: "post",
         headers: {
@@ -90,6 +114,18 @@ export default {
         }
       });
       // Should catch error
+    },
+    mediaUpdate() {
+      const v = document.querySelector("#video");
+      if (!v) return;
+      const timer = v.currentTime;
+      const play = !v.paused;
+      this.socket.emit("media_update", {
+        token: this.$store.state.token,
+        timer: timer,
+        play: play,
+        id: this.$route.params.id
+      });
     }
   }
 };
