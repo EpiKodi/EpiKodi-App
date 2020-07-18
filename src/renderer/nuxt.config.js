@@ -12,26 +12,24 @@ module.exports = {
   },
   loading: false,
   plugins: [
-    {ssr: true, src: '@/plugins/icons.js'},
-    
-    
+    { ssr: true, src: '@/plugins/icons.js' },
   ],
   buildModules: [
-    
+
   ],
   modules: [
     '@nuxtjs/vuetify',
   ],
-          vuetify: {
-            theme: {
-              themes: {
-                light: {
-                  primary: '#1867c0',
-                  secondary: '#b0bec5',
-                  accent: '#8c9eff',
-                  error: '#b71c1c',
-                },
-              },
-            }
-          }
+  vuetify: {
+    theme: {
+      themes: {
+        light: {
+          primary: '#1867c0',
+          secondary: '#b0bec5',
+          accent: '#8c9eff',
+          error: '#b71c1c',
+        },
+      },
+    }
+  }
 };
