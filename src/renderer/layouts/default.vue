@@ -37,6 +37,19 @@ export default {
       ],
     }
   },
+  mounted() {
+    // Create persistant socket
+    this.socket = this.$nuxtSocket({
+      channel: '/'
+    });
+    // Join dedicated room
+    this.socket.emit("join", {
+      token: this.$store.state.token
+    });
+    this.socket.on("stream", (data) => {
+      console.log("in stream")
+    })
+  }
 }
 </script>
 

@@ -100,13 +100,6 @@ export default {
   },
   mounted: function() {
     this.getUploadVideo();
-    this.socket = this.$nuxtSocket({ channel: '/' })
-    this.socket.emit("join", {
-      token: this.$store.state.token
-    });
-    this.socket.on("stream", (data) => {
-      console.log("in stream socket")
-    })
   },
   methods: {
     getUploadVideo() {
