@@ -35,10 +35,18 @@ export default {
     return {
       title: this.$route.params.title,
       image: this.$route.params.image,
-      media: this.$route.params.media
+      media: this.$route.params.media,
+      stream: false
     };
   },
   created() {
+    if (this.$route.params.stream == true) {
+      // Start stream
+      this.stream = true;
+      this.startStream();
+    }
+
+    // Set media url
     if (this.$route.params.id != undefined) {
       this.media =
         "https://epi-kodi.herokuapp.com/file/" +
@@ -48,11 +56,34 @@ export default {
       console.log(this.media);
     }
   },
-  destroyed() {
-    console.log("video page getting destroyed");
+
+  beforeDestroy() {
+    if (this.stream == true) {
+      // Stop stream
+      this.stopStream();
+    }
   },
-  methods: {},
-  layout: "player"
+  layout: "player",
+  methods: {
+    startStream() {
+      fetch("https://epi-kodi.herokuapp.com/stream/" + this.$route.params.id, {
+        method: "post",
+        headers: {
+          Authorization: this.$store.state.token
+        }
+      });
+      // Should catch error
+    },
+    stopStream() {
+      fetch("https://epi-kodi.herokuapp.com/stream", {
+        method: "delete",
+        headers: {
+          Authorization: this.$store.state.token
+        }
+      });
+      // Should catch error
+    }
+  }
 };
 </script>
 
