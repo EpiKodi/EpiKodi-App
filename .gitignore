@@ -1,0 +1,3 @@
+src/renderer/.nuxt/
+dist/main/
+node_modules

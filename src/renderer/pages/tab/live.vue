@@ -1,25 +1,32 @@
 <template>
-  <h1 class="my-title">Diffusions</h1>
+  <v-layout column>
+    <div>
+      <h1 class="my-title">Diffusions</h1>
+    </div>
+    <v-container fluid>
+      <p>diffusion page</p>
+      <p>t</p>
+    </v-container>
+  </v-layout>
 </template>
 
 <script>
-import { remote } from 'electron'
+import { remote } from "electron";
 
 export default {
   components: {},
   data() {
-    return {
-    }
+    return {};
   },
-  methods: {
-  },
-}
+  methods: {}
+};
 </script>
 
 <style>
 body {
   margin: 0 !important;
-  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
     sans-serif;
   color: #dfdfdf;
   font-size: 16px;

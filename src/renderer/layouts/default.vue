@@ -30,7 +30,7 @@ export default {
       items: [
         { title: 'Videos', icon: 'mdi-video', link: '/tab/video' },
         { title: 'Musiques', icon: 'mdi-music', link: '/tab/music' },
-        { title: 'Diffusions', icon: 'mdi-twitch', link: '/tab/live' },
+        { title: 'Diffusions', icon: 'mdi-access-point', link: '/tab/live' },
         { title: 'Youtube', icon: 'mdi-youtube', link: '/tab/youtube' },
         { title: 'Envoyer', icon: 'mdi-upload', link: '/tab/upload' },
         { title: 'Déconnexion', icon: 'mdi-logout', link: '/' },
