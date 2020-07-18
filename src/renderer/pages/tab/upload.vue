@@ -10,7 +10,7 @@
           <v-file-input prepend-icon="mdi-camera" dark v-model="video" accept="video/mp4" label="Choisissez une vidéo"></v-file-input>
           <!-- <v-btn @click="test()">test</v-btn> -->
           <v-row style="justify-content: space-between;">
-            <v-btn @click="send()">Envoyer</v-btn>
+            <v-btn :loading="loading" @click="send()">Envoyer</v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -27,6 +27,7 @@ export default {
     return {
       name: 'test',
       video: undefined,
+      loading: false
     }
   },
   methods: {
@@ -38,6 +39,7 @@ export default {
       formData.append('file', this.video)
       console.log(formData.get('file'))
       console.log(this.$store.state.token)
+      this.loading = true;
       fetch('https://epi-kodi.herokuapp.com/file', {
         method: 'post',
         headers: {
@@ -47,6 +49,7 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
+          this.loading = false;
           console.log(data)
           this.$router.push({ path: '/tab/video' })
         })
