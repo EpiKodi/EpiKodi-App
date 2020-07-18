@@ -44,5 +44,8 @@
     "vuetify-audio": "^0.3.3",
     "webpack": "4.43.0",
     "webpack-node-externals": "1.7.2"
+  },
+  "dependencies": {
+    "nuxt-socket-io": "^1.1.5"
   }
 }

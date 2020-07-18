@@ -100,6 +100,13 @@ export default {
   },
   mounted: function() {
     this.getUploadVideo();
+    this.socket = this.$nuxtSocket({ channel: '/' })
+    this.socket.emit("join", {
+      token: this.$store.state.token
+    });
+    this.socket.on("stream", (data) => {
+      console.log("in stream socket")
+    })
   },
   methods: {
     getUploadVideo() {
@@ -111,7 +118,6 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           this.uploads = data;
           this.$router.push({ path: "/tab/video" });
         });
@@ -132,7 +138,6 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           this.getUploadVideo();
         });
     },
@@ -163,7 +168,6 @@ export default {
         image: "file:///" + image,
         media: "file:///" + video
       };
-      console.log(carte);
       this.cards.push(carte);
       this.switchMode();
     },
@@ -181,7 +185,7 @@ export default {
       });
     },
     checkFile(file_user) {
-      return (file_user == this.$store.state.username)
+      return file_user == this.$store.state.username;
     }
   }
 };
