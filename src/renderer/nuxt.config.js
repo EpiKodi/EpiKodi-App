@@ -18,17 +18,8 @@ module.exports = {
 
   ],
   modules: [
-    '@nuxtjs/vuetify',
-    'nuxt-socket-io',
+    '@nuxtjs/vuetify'
   ],
-  io: {
-    // module options
-    sockets: [{
-      name: 'default',
-      url: 'https://epi-kodi.herokuapp.com',
-      default: true
-    }]
-  },
   vuetify: {
     theme: {
       themes: {

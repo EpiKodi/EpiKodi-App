@@ -50,6 +50,6 @@
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
-    "nuxt-socket-io": "^1.1.5"
+    "socket.io-client": "^2.3.0"
   }
 }

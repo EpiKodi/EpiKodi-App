@@ -22,6 +22,7 @@
 
 <script>
 import { remote } from "electron";
+import io from "socket.io-client";
 
 export default {
   components: {
@@ -55,9 +56,8 @@ export default {
 
   mounted() {
     // Create persistant socket
-    this.socket = this.$nuxtSocket({
-      channel: "/"
-    });
+    this.socket = io("https://epi-kodi.herokuapp.com");
+
     // Join dedicated room
     this.socket.emit("join", {
       token: this.$store.state.token
@@ -91,6 +91,9 @@ export default {
       // Stop stream
       this.stopStream();
     }
+    this.socket.emit("left", {
+      token: this.$store.state.token
+    });
   },
   layout: "player",
   methods: {

@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import io from "socket.io-client"
+
 export default {
   components: {},
   data() {
@@ -43,10 +45,7 @@ export default {
     }
   },
   mounted() {
-    // Create persistant socket
-    this.socket = this.$nuxtSocket({
-      channel: '/'
-    });
+    this.socket = io('https://epi-kodi.herokuapp.com')
     // Join dedicated room
     this.socket.emit("join", {
       token: this.$store.state.token
@@ -55,6 +54,11 @@ export default {
       this.notification = true
       this.notification_text = data.user + " is now streaming."
     })
+  },
+  beforeDestroy() {
+    this.socket.emit("left", {
+      token: this.$store.state.token
+    });
   }
 }
 </script>

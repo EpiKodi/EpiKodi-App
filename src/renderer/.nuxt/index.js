@@ -13,7 +13,6 @@ import { createStore } from './store.js'
 /* Plugins */
 
 import nuxt_plugin_plugin_a36efb16 from 'nuxt_plugin_plugin_a36efb16' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_nuxtsocketio_699dd8da from 'nuxt_plugin_nuxtsocketio_699dd8da' // Source: ./nuxt-socket-io.js (mode: 'all')
 import nuxt_plugin_resourcesplugin_dc76c9a4 from 'nuxt_plugin_resourcesplugin_dc76c9a4' // Source: ../../../.electron-nuxt/renderer/resources-plugin.js (mode: 'all')
 import nuxt_plugin_icons_2bd3da91 from 'nuxt_plugin_icons_2bd3da91' // Source: ../plugins/icons.js (mode: 'all')
 
@@ -175,10 +174,6 @@ async function createApp (ssrContext) {
 
   if (typeof nuxt_plugin_plugin_a36efb16 === 'function') {
     await nuxt_plugin_plugin_a36efb16(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_nuxtsocketio_699dd8da === 'function') {
-    await nuxt_plugin_nuxtsocketio_699dd8da(app.context, inject)
   }
 
   if (typeof nuxt_plugin_resourcesplugin_dc76c9a4 === 'function') {
