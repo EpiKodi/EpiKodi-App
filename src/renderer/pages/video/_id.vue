@@ -55,9 +55,7 @@ export default {
   },
 
   mounted() {
-    // Create persistant socket
-    this.socket = io("https://epi-kodi.herokuapp.com");
-
+    this.socket = io('https://epi-kodi.herokuapp.com/')
     // Join dedicated room
     this.socket.emit("join", {
       token: this.$store.state.token
