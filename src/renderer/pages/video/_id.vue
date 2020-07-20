@@ -55,7 +55,7 @@ export default {
   },
 
   mounted() {
-    this.socket = io('https://epi-kodi.herokuapp.com/')
+    this.socket = io("https://epi-kodi.herokuapp.com/");
     // Join dedicated room
     this.socket.emit("join", {
       token: this.$store.state.token
@@ -76,11 +76,22 @@ export default {
     if (this.$route.params.watcher == true) {
       // WebSocket callback
       this.socket.on("media_update", data => {
+        if (data.id != this.$route.params.id) return;
         const v = document.querySelector("#video");
-        console.log(data);
         v.currentTime = data.timer;
         if (data.play) v.play();
         else v.pause();
+      });
+      this.socket.on("stream-end", data => {
+        if (data.id != this.$route.params.id) return;
+        this.socket.emit("left", {
+          token: this.$store.state.token
+        });
+        this.$router.push({ path: "/tab/video" });
+      });
+      this.socket.emit("new", {
+        id: this.$route.params.id,
+        token: this.$store.state.token
       });
     }
   },
@@ -104,6 +115,10 @@ export default {
         headers: {
           Authorization: this.$store.state.token
         }
+      });
+      this.socket.on("new", data => {
+        if (data.id != this.$route.params.id) return;
+        this.mediaUpdate();
       });
       // Should catch error
     },

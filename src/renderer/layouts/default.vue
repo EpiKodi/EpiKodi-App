@@ -45,15 +45,15 @@ export default {
     }
   },
   mounted() {
-    this.socket = io('https://epi-kodi.herokuapp.com/')
-    // Join dedicated room
-    this.socket.emit("join", {
-      token: this.$store.state.token
-    });
-    this.socket.on("stream", (data) => {
-      this.notification = true
-      this.notification_text = data.user + " is now streaming."
-    })
+    // this.socket = io('https://epi-kodi.herokuapp.com/')
+    // // Join dedicated room
+    // this.socket.emit("join", {
+    //   token: this.$store.state.token
+    // });
+    // this.socket.on("stream", (data) => {
+    //   this.notification = true
+    //   this.notification_text = data.user + " is now streaming."
+    // })
   },
   beforeDestroy() {
     // this.socket.emit("left", {
