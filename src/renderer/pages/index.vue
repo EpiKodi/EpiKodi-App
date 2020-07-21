@@ -59,6 +59,18 @@ export default {
             console.log(this.$store.state.token + ' token ' + this.$store.state.username + ' username')
             this.alert.message = 'Connexion réussie'
             this.alert.type = 'is-success'
+            // ask for friendlist
+            fetch('https://epi-kodi.herokuapp.com/friend', {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.$store.state.token
+              },
+              }).then(response => response.json())
+              .then(data=> {
+                this.$store.commit('delFriendlist')
+                this.$store.commit('addFriendlist', JSON.parse(JSON.stringify(data)))
+              })
             this.$router.push({ path: '/tab/video' })
           }
         })

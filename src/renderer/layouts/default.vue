@@ -37,6 +37,7 @@ export default {
         { title: 'Musiques', icon: 'mdi-music', link: '/tab/music' },
         { title: 'Diffusions', icon: 'mdi-access-point', link: '/tab/live' },
         { title: 'Youtube', icon: 'mdi-youtube', link: '/tab/youtube' },
+        {title: 'Friend', icon: 'mdi-account-multiple', link: '/tab/friendlist'},
         { title: 'Envoyer', icon: 'mdi-upload', link: '/tab/upload' },
         { title: 'Déconnexion', icon: 'mdi-logout', link: '/' },
       ],
