@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height class="my-container">
-    <v-snackbar top right rounded shaped v-model="notification" timeout=3000>
-      {{notification_text}}
+    <v-snackbar top right rounded shaped v-model="notification" timeout="3000">
+      {{ notification_text }}
     </v-snackbar>
     <v-layout row style="min-height: 997px;">
       <v-card min-height="100%" width="256">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import io from "socket.io-client"
+import io from 'socket.io-client'
 
 export default {
   components: {},
@@ -37,12 +37,12 @@ export default {
         { title: 'Musiques', icon: 'mdi-music', link: '/tab/music' },
         { title: 'Diffusions', icon: 'mdi-access-point', link: '/tab/live' },
         { title: 'Youtube', icon: 'mdi-youtube', link: '/tab/youtube' },
-        {title: 'Friend', icon: 'mdi-account-multiple', link: '/tab/friendlist'},
+        { title: 'Social', icon: 'mdi-account-multiple', link: '/tab/social' },
         { title: 'Envoyer', icon: 'mdi-upload', link: '/tab/upload' },
         { title: 'Déconnexion', icon: 'mdi-logout', link: '/' },
       ],
       notification: false,
-      notification_text: ""
+      notification_text: '',
     }
   },
   mounted() {
@@ -60,7 +60,7 @@ export default {
     // this.socket.emit("left", {
     //   token: this.$store.state.token
     // });
-  }
+  },
 }
 </script>
 
